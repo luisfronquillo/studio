@@ -14,6 +14,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Home() {
   const [account, setAccount] = useState<{
@@ -22,16 +23,43 @@ export default function Home() {
     transactions: { date: string; amount: number; type: "deposit" | "send" | "receive"; otherParty: string }[];
   }>({ balance: 0, transactions: [] });
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [topUpAmount, setTopUpAmount] = useState("");
   const [sendAmount, setSendAmount] = useState("");
   const [recipientEmail, setRecipientEmail] = useState("");
+  const { toast } = useToast();
 
   const handleAccountCreation = () => {
-    if (email) {
+    if (email && password) {
+      // Simulate account creation (in real app, this would be a database call)
       setAccount({ ...account, email: email, balance: 0, transactions: [] });
-      alert("Account created successfully!");
+      toast({
+        title: "Account created.",
+        description: "Your account has been successfully created.",
+      });
     } else {
-      alert("Please enter an email.");
+      toast({
+        variant: "destructive",
+        title: "Error creating account.",
+        description: "Please enter an email and password.",
+      });
+    }
+  };
+
+  const handleLogin = () => {
+    if (email && password) {
+      // Simulate login (in real app, this would be a database call)
+      setAccount({ ...account, email: email, balance: 0, transactions: [] });
+      toast({
+        title: "Logged in.",
+        description: "You have been successfully logged in.",
+      });
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Error logging in.",
+        description: "Please enter your email and password.",
+      });
     }
   };
 
@@ -47,8 +75,16 @@ export default function Home() {
         ],
       });
       setTopUpAmount("");
+      toast({
+        title: "Top up successful.",
+        description: `Successfully topped up $${amount}.`,
+      });
     } else {
-      alert("Please enter a valid amount to top up.");
+      toast({
+        variant: "destructive",
+        title: "Error topping up.",
+        description: "Please enter a valid amount to top up.",
+      });
     }
   };
 
@@ -65,9 +101,16 @@ export default function Home() {
       });
       setSendAmount("");
       setRecipientEmail("");
-      alert(`Sent $${amount} to ${recipientEmail}`);
+      toast({
+        title: "Money sent.",
+        description: `Successfully sent $${amount} to ${recipientEmail}.`,
+      });
     } else {
-      alert("Insufficient balance or invalid amount/recipient.");
+      toast({
+        variant: "destructive",
+        title: "Error sending money.",
+        description: "Insufficient balance or invalid amount/recipient.",
+      });
     }
   };
 
@@ -76,20 +119,49 @@ export default function Home() {
       <h1 className="text-2xl font-bold mb-4">PocketSend</h1>
 
       {!account.email ? (
-        <Card className="w-full max-w-md p-4">
-          <CardHeader>
-            <CardTitle>Create Account</CardTitle>
-          </CardHeader>
-          <CardContent className="grid gap-4">
-            <Input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Button onClick={handleAccountCreation}>Create Account</Button>
-          </CardContent>
-        </Card>
+        <div className="grid gap-4 md:grid-cols-2">
+          <Card className="w-full max-w-md p-4">
+            <CardHeader>
+              <CardTitle>Login</CardTitle>
+            </CardHeader>
+            <CardContent className="grid gap-4">
+              <Input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Button onClick={handleLogin}>Login</Button>
+            </CardContent>
+          </Card>
+
+          <Card className="w-full max-w-md p-4">
+            <CardHeader>
+              <CardTitle>Create Account</CardTitle>
+            </CardHeader>
+            <CardContent className="grid gap-4">
+              <Input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Button onClick={handleAccountCreation}>Create Account</Button>
+            </CardContent>
+          </Card>
+        </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <Card className="w-full max-w-md">
