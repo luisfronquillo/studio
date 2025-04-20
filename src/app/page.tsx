@@ -119,7 +119,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <h1 className="text-2xl font-bold mb-4">PocketSend</h1>
 
       {!account.email ? (
@@ -145,11 +145,9 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          {!showCreateAccount && (
+          {!showCreateAccount ? (
             <Button onClick={() => setShowCreateAccount(true)}>Create Account</Button>
-          )}
-
-          {showCreateAccount && (
+          ) : (
             <Card className="w-full max-w-md p-4">
               <CardHeader>
                 <CardTitle>Create Account</CardTitle>
