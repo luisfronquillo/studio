@@ -22,21 +22,25 @@ export default function Home() {
     balance: number;
     transactions: { date: string; amount: number; type: "deposit" | "send" | "receive"; otherParty: string }[];
   }>({ balance: 0, transactions: [] });
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [createEmail, setCreateEmail] = useState("");
+  const [createPassword, setCreatePassword] = useState("");
   const [topUpAmount, setTopUpAmount] = useState("");
   const [sendAmount, setSendAmount] = useState("");
   const [recipientEmail, setRecipientEmail] = useState("");
   const { toast } = useToast();
+  const [showCreateAccount, setShowCreateAccount] = useState(false);
 
   const handleAccountCreation = () => {
-    if (email && password) {
+    if (createEmail && createPassword) {
       // Simulate account creation (in real app, this would be a database call)
-      setAccount({ ...account, email: email, balance: 0, transactions: [] });
+      setAccount({ ...account, email: createEmail, balance: 0, transactions: [] });
       toast({
         title: "Account created.",
         description: "Your account has been successfully created.",
       });
+      setShowCreateAccount(false); // Hide the create account form after successful creation
     } else {
       toast({
         variant: "destructive",
@@ -47,9 +51,9 @@ export default function Home() {
   };
 
   const handleLogin = () => {
-    if (email && password) {
+    if (loginEmail && loginPassword) {
       // Simulate login (in real app, this would be a database call)
-      setAccount({ ...account, email: email, balance: 0, transactions: [] });
+      setAccount({ ...account, email: loginEmail, balance: 0, transactions: [] });
       toast({
         title: "Logged in.",
         description: "You have been successfully logged in.",
@@ -128,39 +132,45 @@ export default function Home() {
               <Input
                 type="email"
                 placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
               />
               <Input
                 type="password"
                 placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
               />
               <Button onClick={handleLogin}>Login</Button>
             </CardContent>
           </Card>
 
-          <Card className="w-full max-w-md p-4">
-            <CardHeader>
-              <CardTitle>Create Account</CardTitle>
-            </CardHeader>
-            <CardContent className="grid gap-4">
-              <Input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <Input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <Button onClick={handleAccountCreation}>Create Account</Button>
-            </CardContent>
-          </Card>
+          {!showCreateAccount && (
+            <Button onClick={() => setShowCreateAccount(true)}>Create Account</Button>
+          )}
+
+          {showCreateAccount && (
+            <Card className="w-full max-w-md p-4">
+              <CardHeader>
+                <CardTitle>Create Account</CardTitle>
+              </CardHeader>
+              <CardContent className="grid gap-4">
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  value={createEmail}
+                  onChange={(e) => setCreateEmail(e.target.value)}
+                />
+                <Input
+                  type="password"
+                  placeholder="Password"
+                  value={createPassword}
+                  onChange={(e) => setCreatePassword(e.target.value)}
+                />
+                <Button onClick={handleAccountCreation}>Create Account</Button>
+              </CardContent>
+            </Card>
+          )}
         </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
