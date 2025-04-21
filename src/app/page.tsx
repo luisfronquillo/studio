@@ -118,6 +118,16 @@ export default function Home() {
     }
   };
 
+  const handleLogout = () => {
+    setAccount({ balance: 0, transactions: [] });
+    setLoginEmail("");
+    setLoginPassword("");
+    toast({
+      title: "Logged out.",
+      description: "You have been successfully logged out.",
+    });
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <h1 className="text-2xl font-bold mb-4">PocketSend</h1>
@@ -178,6 +188,7 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <p className="text-2xl font-bold">${account.balance.toFixed(2)}</p>
+              <Button onClick={handleLogout} variant="secondary">Logout</Button>
             </CardContent>
           </Card>
 
