@@ -181,87 +181,91 @@ export default function Home() {
           )}
         </div>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <Card className="w-full max-w-md">
-            <CardHeader>
-              <CardTitle>Account Balance</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold">${account.balance.toFixed(2)}</p>
-              <Button onClick={handleLogout} variant="secondary">Logout</Button>
-            </CardContent>
-          </Card>
+        <div className="w-full flex flex-col items-center">
+          <div className="w-full flex justify-end">
+            <Button onClick={handleLogout} variant="secondary">Logout</Button>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <Card className="w-full max-w-md">
+              <CardHeader>
+                <CardTitle>Account Balance</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">${account.balance.toFixed(2)}</p>
+              </CardContent>
+            </Card>
 
-          <Card className="w-full max-w-md">
-            <CardHeader>
-              <CardTitle>Top Up Balance</CardTitle>
-            </CardHeader>
-            <CardContent className="grid gap-4">
-              <Input
-                type="number"
-                placeholder="Amount to top up"
-                value={topUpAmount}
-                onChange={(e) => setTopUpAmount(e.target.value)}
-              />
-              <Button onClick={handleTopUp}>Top Up</Button>
-            </CardContent>
-          </Card>
+            <Card className="w-full max-w-md">
+              <CardHeader>
+                <CardTitle>Top Up Balance</CardTitle>
+              </CardHeader>
+              <CardContent className="grid gap-4">
+                <Input
+                  type="number"
+                  placeholder="Amount to top up"
+                  value={topUpAmount}
+                  onChange={(e) => setTopUpAmount(e.target.value)}
+                />
+                <Button onClick={handleTopUp}>Top Up</Button>
+              </CardContent>
+            </Card>
 
-          <Card className="w-full max-w-md">
-            <CardHeader>
-              <CardTitle>Send Money</CardTitle>
-            </CardHeader>
-            <CardContent className="grid gap-4">
-              <Input
-                type="email"
-                placeholder="Recipient Email"
-                value={recipientEmail}
-                onChange={(e) => setRecipientEmail(e.target.value)}
-              />
-              <Input
-                type="number"
-                placeholder="Amount to send"
-                value={sendAmount}
-                onChange={(e) => setSendAmount(e.target.value)}
-              />
-              <Button onClick={handleSendMoney}>Send Money</Button>
-            </CardContent>
-          </Card>
+            <Card className="w-full max-w-md">
+              <CardHeader>
+                <CardTitle>Send Money</CardTitle>
+              </CardHeader>
+              <CardContent className="grid gap-4">
+                <Input
+                  type="email"
+                  placeholder="Recipient Email"
+                  value={recipientEmail}
+                  onChange={(e) => setRecipientEmail(e.target.value)}
+                />
+                <Input
+                  type="number"
+                  placeholder="Amount to send"
+                  value={sendAmount}
+                  onChange={(e) => setSendAmount(e.target.value)}
+                />
+                <Button onClick={handleSendMoney}>Send Money</Button>
+              </CardContent>
+            </Card>
 
-          <Card className="w-full max-w-md col-span-full">
-            <CardHeader>
-              <CardTitle>Transaction History</CardTitle>
-            </CardHeader>
-            <CardContent className="overflow-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[100px]">Date</TableHead>
-                    <TableHead>Amount</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Other Party</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {account.transactions.map((transaction, index) => (
-                    <TableRow key={index}>
-                      <TableCell className="font-medium">{transaction.date}</TableCell>
-                      <TableCell>${transaction.amount.toFixed(2)}</TableCell>
-                      <TableCell>{transaction.type}</TableCell>
-                      <TableCell>{transaction.otherParty}</TableCell>
-                    </TableRow>
-                  ))}
-                  {account.transactions.length === 0 && (
+            <Card className="w-full max-w-md col-span-full">
+              <CardHeader>
+                <CardTitle>Transaction History</CardTitle>
+              </CardHeader>
+              <CardContent className="overflow-auto">
+                <Table>
+                  <TableHeader>
                     <TableRow>
-                      <TableCell colSpan={4} className="text-center">
-                        No transactions yet.
-                      </TableCell>
+                      <TableHead className="w-[100px]">Date</TableHead>
+                      <TableHead>Amount</TableHead>
+                      <TableHead>Type</TableHead>
+                      <TableHead>Other Party</TableHead>
                     </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+                  </TableHeader>
+                  <TableBody>
+                    {account.transactions.map((transaction, index) => (
+                      <TableRow key={index}>
+                        <TableCell className="font-medium">{transaction.date}</TableCell>
+                        <TableCell>${transaction.amount.toFixed(2)}</TableCell>
+                        <TableCell>{transaction.type}</TableCell>
+                        <TableCell>{transaction.otherParty}</TableCell>
+                      </TableRow>
+                    ))}
+                    {account.transactions.length === 0 && (
+                      <TableRow>
+                        <TableCell colSpan={4} className="text-center">
+                          No transactions yet.
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       )}
     </div>
